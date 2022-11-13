@@ -18,27 +18,28 @@ add_btn.addEventListener('click', () => {
 const create_item = () => {
   let item = document.createElement('div');
   item.classList.add('item');
-  item.id = 'item-${order}';
+  item.id = 'item-' + order;
   item.draggable = true;
   item.addEventListener('dragstart', (event) => {
-    return event.dataTransfer.setData('text', event.target);
+    event.dataTransfer.setData('text', event.target.id);
   });
   item.addEventListener('dragend', (event) => {
-    return event.clearData();
+    event.clearData();
   });
+
   let input = document.createElement('input');
   item.appendChild(input);
+
   let save_btn = document.createElement('button');
   save_btn.innerHTML = 'Save';
   save_btn.addEventListener('click', () => {
-    save_btn.error = "";
-    if(input !== ""){
+    error.innerHTML = "";
+    if(input.value !== ""){
       order += 1;
-      item.innerHTML = input;
+      item.innerHTML = input.value;
       adding = false;
-    }
-    else{
-      save_btn.error = input;
+    }else{
+      error.innerHTML = input;
     }
   });
   item.appendChild(save_btn);
@@ -52,5 +53,5 @@ document.querySelectorAll('.drop').forEach(element => {
     const id = event.dataTransfer.getData('text');
     event.target.appendChild(document.getElementById(id));
   });
-  element.addEventListener('drgover',(event) => event.preventDefault());
+  element.addEventListener('dragover',(event) => event.preventDefault());
 });
